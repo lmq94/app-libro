@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\models\Book;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Carbon;
 
 class BookController extends Controller
 {
@@ -45,7 +44,7 @@ class BookController extends Controller
         if($book)
             return response()->json($book);
         else
-            return response("No se encuentra el libro solicitado", 204);
+            return response( "No se encuentra el libro solicitado", 404);
     }
 
 
