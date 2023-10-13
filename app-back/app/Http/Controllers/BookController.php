@@ -98,7 +98,7 @@ class BookController extends Controller
 
         if ($book) {
             $book->delete();
-            return response()->json('El libro se ha eliminado correctamente');
+            return response()->json('El libro se ha eliminado correctamente', 204);
         } else {
             return response()->json('El libro que intenta eliminar no existe', 404);
         }
