@@ -81,7 +81,7 @@ class BookController extends Controller
             } else {
                 $book->update([
                     'name' => $request->get('name'),
-                    'autor' => $request->get('author'),
+                    'author' => $request->get('author'),
                     'edition_date' => $request->get('edition_date'), 
                 ]);
                 return response()->json($book);
@@ -98,7 +98,7 @@ class BookController extends Controller
 
         if ($book) {
             $book->delete();
-            return response()->json('El ibro se ha eliminado correctamente');
+            return response()->json('El libro se ha eliminado correctamente');
         } else {
             return response()->json('El libro que intenta eliminar no existe', 404);
         }
