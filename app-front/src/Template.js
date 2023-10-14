@@ -1,35 +1,42 @@
 import React from "react";
 
 function Navbar() {
-  return (
-    <nav className="navbar">
-      <div className="container">
-        <a href="/" className="navbar-brand">Mi Sitio</a>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <a href="/inicio" className="nav-link">Inicio</a>
-          </li>
-          <li className="nav-item">
-            <a href="/acerca" className="nav-link">Acerca</a>
-          </li>
-          <li className="nav-item">
-            <a href="/contacto" className="nav-link">Contacto</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
-}
-
-function Footer() {
     return (
-      <footer className="footer">
+            <header>
+                  <nav className="navbar navbar-expand-lg bg-body-tertiary bg-dark " data-bs-theme="dark">
+                    <div className = "container-fluid d-flex align-items-center">
+                    <button className="navbar-toggler bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <a className="nav-link" href="/">Ver libros</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/agregar-libro">Agregar un libro</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/contacto">Contacto</a>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                </nav>
+            </header>
+    );
+  }
+
+  function Footer() {
+    return (
+      <footer className="footer bg-dark mt-5" data-bs-theme="dark">
         <div className="container">
-          <p>Derechos de autor © {new Date().getFullYear()} Mi Sitio</p>
+          <p className="text-center">Derechos de autor © {new Date().getFullYear()} Mi Sitio</p>
         </div>
       </footer>
     );
   }
   
+  export default Footer;
 
-export default {Navbar, Footer};
+export {Navbar, Footer};
