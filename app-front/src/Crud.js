@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { filterBooks, getBooks, getBookById } from "./ApiService";
+import { filterBooks, getBooks, getBookById, deleteBook } from "./ApiService";
 
 function Crud() {
   const [items, setItems] = useState([]);
@@ -17,13 +17,14 @@ function Crud() {
   useEffect(() => {
     if (filter.name === "" && filter.author === "" && id === "") {
       getBooks(setItems);
-    } else if (showNoResults) {
-      setItems([]);
+    } else 
+        if (showNoResults) {
+          setItems([]);
     }
   }, [refresh, filter, showNoResults, id]);
 
   const handleDelete = (id) => {
-    // Agregar lógica para eliminar el libro según el ID
+    deleteBook(id);
     setRefresh(true);
   };
 
@@ -31,38 +32,56 @@ function Crud() {
     if (id !== "") {
       getBookById(id, handleFilterResults);
     } else {
-      filterBooks({ ...filter, id }, handleFilterResults);
+      setItems([]);
+      filterBooks(filter, handleFilterResults); 
     }
   
-    // Limpiar los campos de filtro e ID después de la búsqueda
-    setFilter({ name: "", author: "" });
-    setId("");
+  
   };
   
   const handleFilterById = () => {
     if (id !== "") {
-      getBookById(id, handleFilterResults);
+      getBookById(id, (data, error) => {
+        if (error) {
+          setError(error);
+          setItems([]);
+          setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
+        } else {
+          const itemsArray = Array.isArray(data) ? data : [data];
+          if (itemsArray.length === 0) {
+            setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
+          } else {
+            setShowNoResults(false); // Se encontraron resultados, establece showNoResults en false
+          }
+          setItems(itemsArray);
+          setError(null);
+        }
+      });
     }
-  
-    // Limpiar el campo de ID después de la búsqueda
-    setId("");
+    
   };
 
   const handleFilterResults = (data, error) => {
     if (error) {
       setError(error);
       setItems([]);
+      setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
     } else {
       const itemsArray = Array.isArray(data) ? data : [data];
       if (itemsArray.length === 0) {
-        setShowNoResults(true);
-        setItems([]);
+        setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
       } else {
-        setShowNoResults(false);
-        setItems(itemsArray);
-        setError(null);
+        setShowNoResults(false); // Se encontraron resultados, establece showNoResults en false
       }
+      setItems(itemsArray);
+      setError(null);
     }
+  };
+
+  const handleReloadTable = () => {
+    getBooks(setItems); // Recarga la tabla al obtener todos los libros
+    setError(null); // Limpia el mensaje de error
+    setShowNoResults(false); // Oculta el mensaje de no se encontraron resultados
   };
 
   useEffect(() => {
@@ -72,42 +91,48 @@ function Crud() {
   return (
     <div>
       <h1 className = "mt-5">Libros</h1>
-      <div className="filter">
-        <input
-          type="text"
-          placeholder="Filtrar por nombre"
-          value={filter.name}
-          onChange={(e) => setFilter({ ...filter, name: e.target.value })}
-          className = "mt-3 ms-2"
-        />
-        <input
-          type="text"
-          placeholder="Filtrar por autor"
-          value={filter.author}
-          onChange={(e) => setFilter({ ...filter, author: e.target.value })}
-          className = "mt-3 ms-2"
-          
-        />
-        <input
-          type="text"
-          placeholder="Filtrar por ID"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-          className = "mt-3 ms-2 mx-2 mb-2"
-        />
-        <button onClick={handleFilter} className = "btn btn-secondary mx-3 mb-2">Filtrar por Nombre o Autor</button>
-        <button onClick={handleFilterById} className = "btn btn-secondary mx-3 mb-2">Filtrar por ID</button>
+      <div className = "filter">
+          <input
+            type = "text"
+            placeholder = "Filtrar por nombre"
+            value = {filter.name}
+            onChange = {(e) => setFilter({ ...filter, name: e.target.value })}
+            className = "mt-3 ms-2"
+          />
+          <input
+            type = "text"
+            placeholder = "Filtrar por autor"
+            value = {filter.author}
+            onChange = {(e) => setFilter({ ...filter, author: e.target.value })}
+            className = "mt-3 ms-2"
+            
+          />
+          <input
+            type = "text"
+            placeholder = "Filtrar por ID"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            className = "mt-3 ms-2 mx-2 mb-2"
+          />
+          <button onClick = {handleFilter} className = "btn btn-secondary mx-3 mb-2">Filtrar por Nombre o Autor</button>
+          <button onClick = {handleFilterById} className = "btn btn-secondary mx-3 mb-2">Filtrar por ID</button>
       </div>
       {error ? (
-        <div className="error-message">
-          <p style={{ backgroundColor: "red" }}>{error}</p>
+        <div className = "error-message">
+          <p style = {{ backgroundColor: "red" }}>{error}</p>
+          <button onClick={handleReloadTable} className="btn btn-primary mt-2">
+            Recargar Tabla
+        </button>
         </div>
       ) : showNoResults ? (
-        <div className="error-message">
-          <p style={{ backgroundColor: "red" }}>No se ha encontrado ningún libro</p>
+        <div className = "error-message">
+          <p style = {{ backgroundColor: "red" }}>No se ha encontrado ningún libro</p>
+          <button onClick={handleReloadTable} className="btn btn-primary mt-2">
+            Recargar Tabla
+        </button>
         </div>
       ) : (
-        <div className="table-responsive mt-5">
+        <div className = "table-responsive mt-5">
           <table className="table table-bordered">
             <thead>
               <tr>
@@ -119,15 +144,15 @@ function Crud() {
             </thead>
             <tbody>
               {items.map((item, index) => (
-                <tr key={index}>
+                <tr key = {index}>
                   {Object.keys(item).map((key) => (
-                    !noMostrar.includes(key) && <td key={key}>{item[key]}</td>
+                    !noMostrar.includes(key) && <td key = {key}>{item[key]}</td>
                   ))}
                   <td>
-                    <button className="btn btn-primary m-1">Editar</button>
+                  <a href={`/edit/${item.id}`} className="btn btn-primary m-1"> Editar</a>
                     <button
-                      onClick={() => handleDelete(item.id)}
-                      className="btn btn-danger m-1"
+                      onClick = {() => handleDelete(item.id)}
+                      className = "btn btn-danger m-1"
                     >
                       Eliminar
                     </button>
