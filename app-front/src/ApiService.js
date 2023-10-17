@@ -40,23 +40,27 @@ function filterBooks( filter, callback) {
       });
   }
 
-  function getBookById(id, callback) {
+  function getBookById(id, callback = null, data = null) {
     axios
       .get(`${baseUrl}/book/${id}`)
       .then((response) => {
-        if (response.data && response.status === 200) {
-          if (response.data) {
-            callback(response.data, null);
+        if (callback && typeof callback === 'function') {
+          if (response.data && response.status === 200) {
+            if (response.data) {
+              callback(response.data, null);
+            } else {
+              callback(null, "No se encontraron resultados");
+            }
           } else {
             callback(null, "No se encontraron resultados");
           }
-        } else {
-          callback(null, "No se encontraron resultados");
         }
       })
       .catch((error) => {
         console.error(error);
-        callback(null, "Hubo un error en la solicitud");
+        if (callback && typeof callback === 'function') {
+          callback(null, "Hubo un error en la solicitud");
+        }
       });
   }
 
@@ -96,4 +100,25 @@ function createBook(data, setSuccessMessage, setErrorMessage){
                 
 }
 
-export {getBooks, filterBooks,getBookById, deleteBook, createBook}
+function updateBook(data, id, setSuccessMessage, setErrorMessage ){
+    console.log(data);
+    axios.patch(`${baseUrl}/book/${id}`, data)
+            .then((response) => {
+              console.log('Datos actualizados:', response.data)
+              setSuccessMessage("El libro se ha creado con éxito");
+              setErrorMessage(null); 
+          }) 
+          .catch((error) => {
+            console.error('Error al actualizar los datos:', error)
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errorMessages = Object.values(error.response.data.errors).flat();
+                setErrorMessage(errorMessages.join(", "));
+            }
+            else{
+            setErrorMessage("Error al crear el usuario: " + error.message);
+            setSuccessMessage(null); 
+            }
+          });
+}
+
+export {getBooks, filterBooks,getBookById, deleteBook, createBook, updateBook}
