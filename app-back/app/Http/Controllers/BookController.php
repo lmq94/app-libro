@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\models\Book;
+use App\Models\Book;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
@@ -31,8 +31,10 @@ class BookController extends Controller
 
     public function index(){
 
+
         $books = Book::all();
 
+        
         return response()->json($books);
 
     }
@@ -44,7 +46,26 @@ class BookController extends Controller
         if($book)
             return response()->json($book);
         else
-            return response( "No se encuentra el libro solicitado", 404);
+            return response( "No se encuentra el libro solicitado", 204);
+    }
+
+    public function search(Request $request) {
+        $name = $request->input('name');
+        $author = $request->input('author');
+    
+        $query = Book::query(); 
+    
+        if (!empty($name)) {
+            $query->where('name', 'LIKE', "%$name%");
+        }
+    
+        if (!empty($author)) {
+            $query->where('author', 'LIKE', "%$author%");
+        }
+    
+        $books = $query->get(); 
+    
+        return response()->json($books);
     }
 
 
