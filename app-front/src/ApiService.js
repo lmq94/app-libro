@@ -15,18 +15,63 @@ function getBooks(item){
 
 }
 
+function filterBooks( filter, callback) {
+    axios
+      .get(`${baseUrl}/books/search`, {
+        params: {
+          name: filter.name,
+          author: filter.author,
+        }
+      })
+      .then((response) => {
+        if (response.data && response.status === 200) {
+          if (response.data.length === 0) {
+            callback([], "No se encontraron resultados");
+          } else {
+            callback(response.data, null);
+          }
+        } else {
+          callback([], "Hubo un error en la solicitud");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        callback([], "Hubo un error en la solicitud");
+      });
+  }
+
+  function getBookById(id, callback) {
+    axios
+      .get(`${baseUrl}/book/${id}`)
+      .then((response) => {
+        if (response.data && response.status === 200) {
+          if (response.data) {
+            callback(response.data, null);
+          } else {
+            callback(null, "No se encontraron resultados");
+          }
+        } else {
+          callback(null, "No se encontraron resultados");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        callback(null, "Hubo un error en la solicitud");
+      });
+  }
+
 function deleteBook(id){
     axios.delete(`${baseUrl}/book/${id}`).
-    then(response => {
-        if (response.status === 204) {
-          console.log(`Libro con ID ${id} eliminado exitosamente.`);
-        } else {
-          console.error(`Error al eliminar el libro con ID ${id}.`);
-        }
-    })
-    .catch(error => {
-        console.error(`Error en la solicitud de eliminación: ${error}`);
-      });
+        then(response => {
+            if (response.status === 204) {
+                console.log(`Libro con ID ${id} eliminado exitosamente.`);
+            } else {
+                console.error(`Error al eliminar el libro con ID ${id}.`);
+            }
+        })
+        .catch(error => {
+            console.error(`Error en la solicitud de eliminación: ${error}`);
+        });
 }
 
 
@@ -51,4 +96,4 @@ function createBook(data, setSuccessMessage, setErrorMessage){
                 
 }
 
-export {getBooks, deleteBook, createBook}
+export {getBooks, filterBooks,getBookById, deleteBook, createBook}
