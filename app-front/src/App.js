@@ -16,7 +16,7 @@ function App() {
         <main className = "container">
           <Routes>
             <Route path = "/" element = {<Crud/>} />
-            <Route path= "/edit/:id" element = {<EditBook/>} />
+            <Route path = "/edit/:id" element = {<EditBook/>} />
             <Route path = "/agregar-libro" element = {<BookForm/>} />
             
           </Routes>

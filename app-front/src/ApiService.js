@@ -43,25 +43,25 @@ function filterBooks( filter, callback) {
   function getBookById(id, callback = null, data = null) {
     axios
       .get(`${baseUrl}/book/${id}`)
-      .then((response) => {
-        if (callback && typeof callback === 'function') {
-          if (response.data && response.status === 200) {
-            if (response.data) {
-              callback(response.data, null);
+        .then((response) => {
+          if (callback && typeof callback === 'function') {
+            if (response.data && response.status === 200) {
+              if (response.data) {
+                callback(response.data, null);
+              } else {
+                callback(null, "No se encontraron resultados");
+              }
             } else {
               callback(null, "No se encontraron resultados");
             }
-          } else {
-            callback(null, "No se encontraron resultados");
           }
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        if (callback && typeof callback === 'function') {
-          callback(null, "Hubo un error en la solicitud");
-        }
-      });
+        })
+        .catch((error) => {
+          console.error(error);
+          if (callback && typeof callback === 'function') {
+            callback(null, "Hubo un error en la solicitud");
+          }
+        });
   }
 
 function deleteBook(id){
@@ -93,8 +93,8 @@ function createBook(data, setSuccessMessage, setErrorMessage){
                     setErrorMessage(errorMessages.join(", "));
                 }
                 else{
-                setErrorMessage("Error al crear el usuario: " + error.message);
-                setSuccessMessage(null); 
+                  setErrorMessage("Error al crear el usuario: " + error.message);
+                  setSuccessMessage(null); 
                 }
               });
                 
@@ -115,8 +115,8 @@ function updateBook(data, id, setSuccessMessage, setErrorMessage ){
                 setErrorMessage(errorMessages.join(", "));
             }
             else{
-            setErrorMessage("Error al crear el usuario: " + error.message);
-            setSuccessMessage(null); 
+              setErrorMessage("Error al crear el usuario: " + error.message);
+              setSuccessMessage(null); 
             }
           });
 }
