@@ -107,7 +107,7 @@ function createBook(data, setSuccessMessage, setErrorMessage){
 //Funcion encargada de actualizar un libro en la api
 function updateBook(data, id, setSuccessMessage, setErrorMessage ){
     console.log(data);
-    axios.patch(`${baseUrl}/book/${id}`, data)
+    axios.put(`${baseUrl}/book/${id}`, data)
             .then((response) => {
               console.log('Datos actualizados:', response.data)
               setSuccessMessage("El libro se ha creado con éxito");
