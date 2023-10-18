@@ -22,5 +22,5 @@ use App\Http\Controllers\BookController;
     Route::get('book/{id}', [BookController::class, 'show']);
     Route::get('books/search', [BookController::class, 'search']);
     Route::post('books', [BookController::class, 'create']);
-    Route::patch('book/{id}', [BookController::class, 'update']);
+    Route::put('book/{id}', [BookController::class, 'update']);
     Route::delete('book/{id}', [BookController::class, 'delete']);
