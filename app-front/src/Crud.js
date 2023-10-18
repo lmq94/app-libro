@@ -45,13 +45,13 @@ function Crud() {
         if (error) {
           setError(error);
           setItems([]);
-          setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
+          setShowNoResults(true); 
         } else {
           const itemsArray = Array.isArray(data) ? data : [data];
           if (itemsArray.length === 0) {
-            setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
+            setShowNoResults(true); 
           } else {
-            setShowNoResults(false); // Se encontraron resultados, establece showNoResults en false
+            setShowNoResults(false); 
           }
           setItems(itemsArray);
           setError(null);
@@ -65,13 +65,13 @@ function Crud() {
     if (error) {
       setError(error);
       setItems([]);
-      setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
+      setShowNoResults(true); 
     } else {
       const itemsArray = Array.isArray(data) ? data : [data];
       if (itemsArray.length === 0) {
-        setShowNoResults(true); // No se encontraron resultados, establece showNoResults en true
+        setShowNoResults(true); 
       } else {
-        setShowNoResults(false); // Se encontraron resultados, establece showNoResults en false
+        setShowNoResults(false); 
       }
       setItems(itemsArray);
       setError(null);
@@ -79,9 +79,9 @@ function Crud() {
   };
 
   const handleReloadTable = () => {
-    getBooks(setItems); // Recarga la tabla al obtener todos los libros
-    setError(null); // Limpia el mensaje de error
-    setShowNoResults(false); // Oculta el mensaje de no se encontraron resultados
+    getBooks(setItems); 
+    setError(null); 
+    setShowNoResults(false); 
   };
 
   useEffect(() => {
@@ -90,46 +90,46 @@ function Crud() {
 
   return (
     <div>
-      <h1 className = "mt-5">Libros</h1>
-      <div className = "filter">
-          <input
-            type = "text"
-            placeholder = "Filtrar por nombre"
-            value = {filter.name}
-            onChange = {(e) => setFilter({ ...filter, name: e.target.value })}
-            className = "mt-3 ms-2"
-          />
-          <input
-            type = "text"
-            placeholder = "Filtrar por autor"
-            value = {filter.author}
-            onChange = {(e) => setFilter({ ...filter, author: e.target.value })}
-            className = "mt-3 ms-2"
-            
-          />
-          <input
-            type = "text"
-            placeholder = "Filtrar por ID"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            className = "mt-3 ms-2 mx-2 mb-2"
-          />
-          <button onClick = {handleFilter} className = "btn btn-secondary mx-3 mb-2">Filtrar por Nombre o Autor</button>
-          <button onClick = {handleFilterById} className = "btn btn-secondary mx-3 mb-2">Filtrar por ID</button>
-      </div>
-      {error ? (
-        <div className = "error-message">
-          <p style = {{ backgroundColor: "red" }}>{error}</p>
-          <button onClick={handleReloadTable} className="btn btn-primary mt-2">
-            Recargar Tabla
-        </button>
+        <h1 className = "mt-5">Libros</h1>
+        <div className = "justify-content-center">
+            <input
+              type = "text"
+              placeholder = "Filtrar por nombre"
+              value = {filter.name}
+              onChange = {(e) => setFilter({ ...filter, name: e.target.value })}
+              className = "mt-3 ms-2"
+            />
+            <input
+              type = "text"
+              placeholder = "Filtrar por autor"
+              value = {filter.author}
+              onChange = {(e) => setFilter({ ...filter, author: e.target.value })}
+              className = "mt-3 ms-2"
+              
+            />
+            <input
+              type = "text"
+              placeholder = "Filtrar por ID"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              className = "mt-3 ms-2 mx-2 mb-2"
+            />
+            <button onClick = {handleFilter} className = "btn btn-secondary mx-3 mb-2">Filtrar por Nombre o Autor</button>
+            <button onClick = {handleFilterById} className = "btn btn-secondary mx-3 mb-2">Filtrar por ID</button>
         </div>
-      ) : showNoResults ? (
-        <div className = "error-message">
-          <p style = {{ backgroundColor: "red" }}>No se ha encontrado ningún libro</p>
-          <button onClick={handleReloadTable} className="btn btn-primary mt-2">
-            Recargar Tabla
-        </button>
+        {error ? (
+          <div className = "error-message">
+            <p style = {{ backgroundColor: "red" }}>{error}</p>
+            <button onClick={handleReloadTable} className="btn btn-primary mt-2">
+              Recargar Tabla
+          </button>
+          </div>
+        ) : showNoResults ? (
+          <div className = "error-message">
+            <p style = {{ backgroundColor: "red" }}>No se ha encontrado ningún libro</p>
+            <button onClick={handleReloadTable} className="btn btn-primary mt-2">
+              Recargar Tabla
+          </button>
         </div>
       ) : (
         <div className = "table-responsive mt-5">

@@ -43,8 +43,6 @@ function BookForm({ bookData, handleChange, handleSubmit, successMessage, errorM
               {successMessage}
             </div>
           )}
-  
-          {/* Mostrar mensaje de error si errorMessage tiene un valor */}
           {errorMessage && (
             <div className = "alert alert-danger mt-3 error-message">
               {errorMessage}

@@ -9,7 +9,7 @@ function EditBook(props) {
   const [book, setBook] = useState({
 
   });
-  // Aquí puedes cargar los datos del libro con el ID proporcionado
+  
 
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -44,14 +44,13 @@ function EditBook(props) {
   }      
 
   useEffect(() => {
-    if (id) { // Asegúrate de tener un ID antes de buscar el libro
+    if (id) { 
       getBookById(id, handleFilterResults);
     } else {
       setBook(null);
     }
   }, [id]);
 
-  // Renderiza un formulario para editar los datos del libro
 
   return (
     <div className = "mt-5">
