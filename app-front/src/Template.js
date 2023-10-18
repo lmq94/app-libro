@@ -1,5 +1,7 @@
 import React from "react";
 
+
+//Este es el html del navbar
 function Navbar() {
     return (
             <header>
@@ -27,6 +29,7 @@ function Navbar() {
     );
   }
 
+  //Este es el html del footer
   function Footer() {
     return (
       <footer className = "footer bg-dark mt-5" data-bs-theme="dark">

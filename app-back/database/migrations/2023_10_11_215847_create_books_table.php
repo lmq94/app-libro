@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-
+//migracion encargada de crear la estructura de la tabla de la entidad Book
 return new class extends Migration
 {
     

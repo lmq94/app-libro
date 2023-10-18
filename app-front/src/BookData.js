@@ -1,3 +1,5 @@
+
+//Componente creado con el fin de reutilizar el codigo html de un formulario donde se ingresan los datos del libro
 function BookForm({ bookData, handleChange, handleSubmit, successMessage, errorMessage }) {
     return (
       <div className = "container container-sm mt-5">

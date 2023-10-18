@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { filterBooks, getBooks, getBookById, deleteBook } from "./ApiService";
 
+
+//Componente encargado de mostrar los libros de la aplicacion, tambien se puede borrar y editar libros
 function Crud() {
   const [items, setItems] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -12,8 +14,10 @@ function Crud() {
   const [error, setError] = useState(null);
   const [showNoResults, setShowNoResults] = useState(false);
 
+  //Datos que no se mostraran en la tabla
   let noMostrar = ["id", "created_at", "updated_at"];
 
+  //Se encargara de mostrar todos los libros si no se usan filtros ni se busca por identificador
   useEffect(() => {
     if (filter.name === "" && filter.author === "" && id === "") {
       getBooks(setItems);
@@ -23,11 +27,13 @@ function Crud() {
     }
   }, [refresh, filter, showNoResults, id]);
 
+  //Evento encargado de eliminar un libro
   const handleDelete = (id) => {
     deleteBook(id);
     setRefresh(true);
   };
 
+  //Evento encargado de filtrar por identificador o por nombre o autor
   const handleFilter = () => {
     if (id !== "") {
       getBookById(id, handleFilterResults);
@@ -39,6 +45,7 @@ function Crud() {
   
   };
   
+  //Encargado de mostrar el libro que se obtiene (o no) buscando por id
   const handleFilterById = () => {
     if (id !== "") {
       getBookById(id, (data, error) => {
@@ -61,6 +68,8 @@ function Crud() {
     
   };
 
+
+  //Encargado de mostrar el libro que se obtiene (o no) buscando por nombre o autor
   const handleFilterResults = (data, error) => {
     if (error) {
       setError(error);
@@ -78,16 +87,19 @@ function Crud() {
     }
   };
 
+  //Recarga la tabla cuando no se encuentra ningun resultado cuando hay una busqueda negativa sin resultados
   const handleReloadTable = () => {
     getBooks(setItems); 
     setError(null); 
     setShowNoResults(false); 
   };
 
+  //Refresca la tabla mostrando todos los libros
   useEffect(() => {
     setRefresh(false);
   }, [refresh]);
 
+  //Aqui se genera el html de la tabla
   return (
     <div>
         <h1 className = "mt-5">Libros</h1>

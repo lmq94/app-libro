@@ -17,6 +17,7 @@ use App\Http\Controllers\BookController;
 |
 */
 
+    //Endpoints de mi api
     Route::get('books', [BookController::class, 'index']);
     Route::get('book/{id}', [BookController::class, 'show']);
     Route::get('books/search', [BookController::class, 'search']);

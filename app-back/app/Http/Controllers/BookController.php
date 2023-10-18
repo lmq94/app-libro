@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Support\Facades\Validator;
 
+//Controlador encargado de manejar la logica a todo lo referido con la entidad book
+
 class BookController extends Controller
 {
+
+    //Reglas de validacion de datos para actualizacion o alta de libros
     protected $rules = [
         'name' => 'required|string|max:30',
         'author' => 'required|string|max:30',
@@ -15,6 +19,8 @@ class BookController extends Controller
        
     ];
 
+
+    //Mensajes de error que la api notificara al usuario en caso de que no se cumpla alguna regla de validacion
     protected $messages = [
         'name.required' => 'El nombre es requerido.',
         'author.required' => 'El autor es requerido.',
@@ -29,6 +35,7 @@ class BookController extends Controller
     ];
 
 
+    //Devuelve todos los libros en la base de datos
     public function index(){
 
 
@@ -39,6 +46,7 @@ class BookController extends Controller
 
     }
 
+    //Devuelve si existe un libro en la base de datos dado un id
     public function show($id){
 
         $book = Book::find($id);
@@ -49,6 +57,8 @@ class BookController extends Controller
             return response( "No se encuentra el libro solicitado", 204);
     }
 
+    
+    // Busca un libro por nombre o autor (o ambos) y lo devuelve si existe
     public function search(Request $request) {
         $name = $request->input('name');
         $author = $request->input('author');
@@ -69,6 +79,7 @@ class BookController extends Controller
     }
 
 
+    //Crea un libro respetando las reglas de validacion
     public function create (Request $request){
 
         $validator = Validator::make($request->all(), $this->rules, $this->messages);
@@ -90,6 +101,7 @@ class BookController extends Controller
 
     }
 
+    //Actualiza un libro respetando las reglas de validacion
     public function update(Request $request, $id){
 
         $book = Book::find($id);
@@ -113,6 +125,7 @@ class BookController extends Controller
     }
 
 
+    //Borra un libro si este existe
     public function delete($id){
 
         $book = Book::find($id);

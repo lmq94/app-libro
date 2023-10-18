@@ -7,7 +7,7 @@ import EditBook from './EditBook';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
-
+//Componente principal en el front react
 function App() {
   return (
     <Router>

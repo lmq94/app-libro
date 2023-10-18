@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const baseUrl = 'http://localhost:8000/api';
 
-
+//Funcion encargarda de traer todos los libros en la api
 function getBooks(item){
     axios.get(`${baseUrl}/books`)
         .then(response => {
@@ -15,6 +15,7 @@ function getBooks(item){
 
 }
 
+//Funcion que filtra los libros en la api por nombre o autor (o ambos)
 function filterBooks( filter, callback) {
     axios
       .get(`${baseUrl}/books/search`, {
@@ -40,6 +41,7 @@ function filterBooks( filter, callback) {
       });
   }
 
+  //Funcion que busca un libro en la api por su id y lo trae si existe
   function getBookById(id, callback = null, data = null) {
     axios
       .get(`${baseUrl}/book/${id}`)
@@ -64,6 +66,8 @@ function filterBooks( filter, callback) {
         });
   }
 
+
+//Funcion que dado un id buscara un libro en la api y lo borrara si existe
 function deleteBook(id){
     axios.delete(`${baseUrl}/book/${id}`).
         then(response => {
@@ -78,7 +82,7 @@ function deleteBook(id){
         });
 }
 
-
+//Funcion encargada de dar de alta un libro en la api
 function createBook(data, setSuccessMessage, setErrorMessage){
     axios.post(`${baseUrl}/books`, data)
             .then((response) => {
@@ -100,6 +104,7 @@ function createBook(data, setSuccessMessage, setErrorMessage){
                 
 }
 
+//Funcion encargada de actualizar un libro en la api
 function updateBook(data, id, setSuccessMessage, setErrorMessage ){
     console.log(data);
     axios.patch(`${baseUrl}/book/${id}`, data)
